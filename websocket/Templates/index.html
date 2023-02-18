@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+ COUNT 
+ <p id="para"></p>
+</body>
+
+<script>
+var para=document.querySelector('p')
+    var ws=new WebSocket('ws://127.0.0.1:8000/ws/rsc/')
+    ws.onopen=function(){
+        console.log('Websocket connection open')
+        ws.send('Hi from client Prasanna...')
+
+    }
+    ws.onmessage=function(event){
+        console.log('Message from server',event)
+        // para.innerText = para.innerText + event['data'] +'\n'
+        para.innerText=event.data
+        console.log(typeof(event.data))
+       let  js_data=JSON.parse(event.data)
+        console.log(typeof(js_data))
+    }
+    ws.onerror=function(event){
+        console.log('Websocket error occured',event)
+    }
+    ws.onclose=function(event){
+        console.log('Websocket connecton closed',event)
+    }
+</script>
+</html>
